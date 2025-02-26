@@ -22,7 +22,6 @@ namespace Lab_6
             public string Name => _name;
             public string Surname => _surname;
             public double Time => _time;
-            public bool Need => _need;
             //конструктор
             public Sportsman(string name, string surname)
             {
@@ -86,31 +85,34 @@ namespace Lab_6
                 if (_sportsmen == null) return;
                 var sport1 = new Sportsman[_sportsmen.Length + 1];
                 Array.Copy(_sportsmen, sport1, _sportsmen.Length);
-                Sportsmen[Sportsmen.Length - 1] = sportm;
+                sport1[sport1.Length - 1] = sportm;
                 _sportsmen = sport1;
             }
             public void Add(Sportsman[] sportms)
             {
                 if (_sportsmen == null || sportms==null ) return;
-                int length = _sportsmen.Length;
-                var sport2 = new Sportsman[length + sportms.Length];
-                Array.Copy(_sportsmen, sport2, length);
-                Array.ConstrainedCopy(sportms, 0, sport2, length, sportms.Length);
+                int l = _sportsmen.Length;
+                var sport2 = new Sportsman[l + sportms.Length];
+                Array.Copy(_sportsmen, sport2, l);
+                Array.ConstrainedCopy(sportms, 0, sport2, l, sportms.Length);
                 _sportsmen = sport2;
             }
-            public void Add(Group sportms)
+            public void Add(Group s)
             {
-                if (_sportsmen == null || sportms.Sportsmen == null) return;
-                Add(sportms.Sportsmen);
+                if (_sportsmen == null || s.Sportsmen == null) return;
+                Add(s.Sportsmen);
             }
             public void Sort()
 
             {
-                
                 if (_sportsmen == null) return;
-
-                var a = _sportsmen.OrderBy((x) => x.Time).ToArray();
-                Array.Copy(a, _sportsmen, a.Length);
+                Array.Sort(_sportsmen, (x, y) =>
+                {
+                    if (x.Time < y.Time) return -1;
+                    else if (x.Time > y.Time) return 1;
+                    else return 0;
+                });
+                
             }
 
             public static Group Merge(Group group1, Group group2)
@@ -143,7 +145,7 @@ namespace Lab_6
                 }
                 return group;
             }
-            public void Print() {;}
+            public void Print() {}
             
         }
     }

@@ -44,6 +44,7 @@ namespace Lab_6
             {
                 get
                 {
+                    if (_marks == null || _coefs == null) return 0;
                     double score = 0.0;
                     for (int i = 0; i < 4; i++)
                     {

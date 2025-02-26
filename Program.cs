@@ -18,8 +18,8 @@ namespace Lab_6
             //Console.WriteLine();
             //Check4();
             //Console.WriteLine();
-            //Check5();
-            //Console.WriteLine();
+            Check5();
+            Console.WriteLine();
         }
 
 

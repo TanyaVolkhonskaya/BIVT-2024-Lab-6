@@ -19,8 +19,31 @@ namespace Lab_6
             //свойства
             public string Name => _name;
             public string Surname => _surname;
-            public int TopPlace => Places.Min();
-            public double TotalMark => Marks.Sum();
+            private double TotalMark
+            {
+                get
+                {
+                    if (_marks == null) return 0;
+                    double sum = 0;
+                    foreach (double m in _marks)
+                        sum += m;
+                    return sum;
+                }
+            }
+
+            private int TopPlace
+            {
+                get
+                {
+                    if (_places == null) return 0;
+                    int minim = 0;
+                    for (int i = 0; i < _places.Length; i++)
+                        if (_places[i] < _places[minim])
+                            minim = i;
+                    return _places[minim];
+                }
+            }
+
             public double[] Marks
 
             {
@@ -87,30 +110,54 @@ namespace Lab_6
                 if (participants == null) return;
                 for (int i = 0; i < 7; i++)
                 {
-                    Array.Sort(participants, (x, y) =>
+                    Array.Sort(participants, (x,y) =>
                     {
-                        double a = x.Marks[i] - y.Marks[i];
-                        if (a < 0) return 1;
-                        else if (a > 0) return -1;
-                        else return 0;
+                        double a = 0, b = 0;
+
+                        if (x.Marks == null) 
+                            a = 0;
+                        else 
+                         a = x.Marks[i]; 
+                        if (y.Marks == null) 
+                            b = 0; 
+                        else 
+                            b = y.Marks[i];
+                        double dif = a - b;
+                        if (dif < 0) 
+                            return 1;
+                        else if (dif > 0) 
+                            return -1;
+                        else 
+                            return 0;
                     });
+
                     for (int j = 0; j < participants.Length; j++)
-                    {
-
                         participants[j].SetPlace(i, j + 1);
-                    }
-
                 }
             }
 
             public static void Sort(Participant[] array)
             {
                 if (array == null) return;
-                var arr = array.OrderByDescending((x) => x.Score).ThenBy((x) => x.TopPlace).ThenByDescending((x) => x.TotalMark).ToArray();
-                for (int i = 0; i < arr.Length; i++)
+                foreach(var x in array)
                 {
-                    array[i] = arr[arr.Length - i - 1];
+                    if (x.Places == null) return;
                 }
+                Array.Sort(array, (x, y) =>
+                {
+                    if (x.Score == y.Score)
+                    {
+                        if (x.TopPlace == y.TopPlace)
+                        {
+                            double xy = x.TotalMark - y.TotalMark;
+                            if (xy < 0) return 1;
+                            else if (xy > 0) return -1;
+                            else return 0;
+                        }
+                        return x.TopPlace - y.TopPlace;
+                    }
+                    return x.Score - y.Score;
+                });
             }
             public void Print()
             {
