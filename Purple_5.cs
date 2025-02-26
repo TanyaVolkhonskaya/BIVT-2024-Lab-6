@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -21,14 +21,7 @@ namespace Lab_6
             public string Animal => _animal;
             public string CharacterTrait => _characterTrait;
             public string Concept => _concept;
-            private string[] Answer
-            {
-                get
-                {
-                    return new string[] { _animal, _characterTrait, _concept };
-                }
-            }
-
+           
             public Response(string animal, string characterTrait, string concept)
             {
                 _animal = animal;
@@ -77,17 +70,8 @@ namespace Lab_6
             private Response[] _responses;
 
             public string Name => _name;
-            public Response[] Responses
-            {
-                get
-                {
-                    if (_responses == null) return null;
-
-                    var copy = new Response[_responses.Length];
-                    Array.Copy(_responses, copy, copy.Length);
-                    return copy;
-                }
-            }
+            public Response[] Responses => _responses;
+            
 
             public Research(string name)
             {
@@ -137,9 +121,9 @@ namespace Lab_6
                     if (c == 1 && array1[question-1]!= null) 
                     {
                         int k = 0;
-                        for (int j = i+1; j < count; j++)
+                        for (int j = 0; j < count; j++)
                         {
-                            if (ans[j] == array1[question - 1]) k++;
+                            if (ans[j] == array1[question - 1] ) k++;
                         }
                         if (k == 0 && array1[question-1]!= null && array1[question-1]!= "-")
                         {
@@ -155,7 +139,8 @@ namespace Lab_6
                     var array1 = new string[] { _responses[i].Animal, _responses[i].CharacterTrait, _responses[i].Concept };
                     for (int j = 0; j < ans.Length; j++)
                     {
-                        if (array1[question - 1] == ans[j])
+
+                        if (ans[j]!=null && array1[question - 1] == ans[j])
                         {
                             counts[j]++;
                         }
@@ -163,7 +148,7 @@ namespace Lab_6
                 }
                 Array.Sort(counts, ans);
                 Array.Reverse(ans);
-                string[] answer = new string[5];
+                string[] answer = new string[Math.Min(ans.Length,5)];
                 Array.Copy(ans, answer, 5);
                 return answer;
             }
