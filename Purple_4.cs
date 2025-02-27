@@ -50,18 +50,7 @@ namespace Lab_6
             private Sportsman[] _sportsmen;
             //свойства
             public string Name => _name;
-            public Sportsman[] Sportsmen
-                {
-                    get
-                    {
-                        if (_sportsmen == null) return null;
-                        var copy=new Sportsman[_sportsmen.Length];
-                    Array.Copy(_sportsmen, copy, _sportsmen.Length);
-                    return copy;
-                    
-                    }
-                }
-
+            public Sportsman[] Sportsmen => _sportsmen;
             //конструктор
             public Group(string name)
             {
